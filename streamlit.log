@@ -1,0 +1,11 @@
+2026-05-15 14:09:36.018 Uvicorn server started on 0.0.0.0:8501
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501
+  Network URL: http://169.254.0.21:8501
+  External URL: http://35.239.193.39:8501
+
+[nltk_data] Downloading package stopwords to /home/ubuntu/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+2026-05-16 22:07:03.681 Session with id f0aa1e06-9cdd-498f-b7be-1c71dff6c63a is already connected! Connecting to a new session.

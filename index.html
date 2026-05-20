@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detection System - Setup Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .step p {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .step ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .step li {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            display: block;
+        }
+
+        .important-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .important-box strong {
+            color: #856404;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .success-box strong {
+            color: #155724;
+        }
+
+        .error-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .error-box strong {
+            color: #721c24;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .step-counter {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .icon {
+            font-size: 1.5em;
+        }
+
+        .troubleshooting-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .troubleshooting-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .troubleshooting-item p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .skip-to-step {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .skip-to-step label {
+            color: #333;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .skip-to-step select {
+            padding: 8px 12px;
+            border: 1px solid #667eea;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .step {
+                padding: 20px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <span class="icon">📧</span>
+                <span>Spam Detection System</span>
+            </h1>
+            <p>Complete Setup & Installation Guide</p>
+        </header>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="skip-to-step">
+                <label for="stepSelect">Jump to a step:</label>
+                <select id="stepSelect" onchange="jumpToStep(this.value)">
+                    <option value="">Select a step...</option>
+                    <option value="0">Step 1: Install Python</option>
+                    <option value="1">Step 2: Extract Project Files</option>
+                    <option value="2">Step 3: Open Command Prompt</option>
+                    <option value="3">Step 4: Install Libraries</option>
+                    <option value="4">Step 5: Run the Application</option>
+                    <option value="5">Step 6: Use the Application</option>
+                    <option value="6">Troubleshooting</option>
+                </select>
+            </div>
+
+            <!-- Step 1: Install Python -->
+            <div class="step active">
+                <h2>
+                    <span class="step-number">1</span>
+                    Install Python
+                </h2>
+
+                <p>Python is the programming language used for this application. If you don't have it installed, follow these instructions:</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📥 Download Python</h3>
+                <p>Visit the official Python website: <a href="https://www.python.org/downloads/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">https://www.python.org/downloads/</a></p>
+                <p>Download the latest version for your operating system (Windows, macOS, or Linux). Look for the "Download Python X.Y.Z" button.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">🔧 Run the Installer</h3>
+                <ul>
+                    <li><strong>Windows:</strong> Double-click the downloaded <code>.exe</code> file.</li>
+                    <li><strong>macOS:</strong> Double-click the downloaded <code>.pkg</code> file and follow the prompts.</li>
+                    <li><strong>Linux:</strong> Python is often pre-installed. Open a terminal and type <code>python3 --version</code> to check.</li>
+                </ul>
+
+                <div class="important-box">
+                    <strong>⚠️ Important for Windows Users:</strong> During installation, make sure to check the box that says "Add Python to PATH". This is crucial for the next steps!
+                </div>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">✅ Verify Installation</h3>
+                <p>Open your computer's Command Prompt (Windows) or Terminal (macOS/Linux) and type:</p>
+                <div class="code-block"><code>python --version</code></div>
+                <p>or</p>
+                <div class="code-block"><code>python3 --version</code></div>
+                <p>You should see the Python version printed (e.g., <code>Python 3.11.0</code>).</p>
+
+                <div class="success-box">
+                    <strong>✓ Success:</strong> If you see a version number, Python is installed correctly!
+                </div>
+            </div>
+
+            <!-- Step 2: Extract Project Files -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">2</span>
+                    Extract Project Files
+                </h2>
+
+                <p>Now we'll extract the spam detection system files to your computer.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📂 Locate the Zip File</h3>
+                <p>You should have a file named <code>spam_detection_system.zip</code> in your Downloads folder or wherever you saved it.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📦 Extract the Contents</h3>
+                <ul>
+                    <li><strong>Windows:</strong> Right-click on <code>spam_detection_system.zip</code> and select "Extract All".</li>
+                    <li><strong>macOS:</strong> Double-click the zip file to automatically extract it.</li>
+                    <li><strong>Linux:</strong> Right-click and select "Extract Here" or use the terminal command: <code>unzip spam_detection_system.zip</code></li>
+                </ul>
+
+                <p style="margin-top: 20px;">This will create a new folder named <code>spam_detection_system</code>.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📍 Remember the Folder Location</h3>
+                <p>Note where this folder is located. For example:</p>
+                <ul>
+                    <li><strong>Windows:</strong> <code>C:\Users\YourName\Downloads\spam_detection_system</code></li>
+                    <li><strong>macOS:</strong> <code>/Users/YourName/Downloads/spam_detection_system</code></li>
+                    <li><strong>Linux:</strong> <code>/home/YourName/Downloads/spam_detection_system</code></li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>✓ Ready:</strong> You now have all the project files extracted and ready to use!
+                </div>
+            </div>
+
+            <!-- Step 3: Open Command Prompt -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">3</span>
+                    Open Command Prompt & Navigate to Folder
+                </h2>
+
+                <p>We need to open a command prompt (or terminal) and navigate to the project folder.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">🖥️ Open Command Prompt/Terminal</h3>
+                <ul>
+                    <li><strong>Windows:</strong> Search for "cmd" or "Command Prompt" in the Start menu and click it.</li>
+                    <li><strong>macOS:</strong> Search for "Terminal" in Spotlight (Cmd + Space) and open it.</li>
+                    <li><strong>Linux:</strong> Right-click on your desktop and select "Open Terminal Here" or search for "Terminal" in your applications.</li>
+                </ul>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📍 Navigate to the Project Folder</h3>
+                <p>In the Command Prompt/Terminal, type the following command (replace the path with your actual folder location):</p>
+                <div class="code-block"><code>cd path/to/your/spam_detection_system</code></div>
+
+                <p style="margin-top: 20px;">For example, if it's in your Downloads folder on Windows:</p>
+                <div class="code-block"><code>cd C:\Users\YourName\Downloads\spam_detection_system</code></div>
+
+                <p style="margin-top: 20px;">On macOS:</p>
+                <div class="code-block"><code>cd /Users/YourName/Downloads/spam_detection_system</code></div>
+
+                <p style="margin-top: 20px;">Press <strong>Enter</strong> after typing the command.</p>
+
+                <div class="important-box">
+                    <strong>💡 Tip:</strong> You can also drag and drop the folder into the terminal window, and it will automatically type the path for you!
+                </div>
+
+                <div class="success-box">
+                    <strong>✓ Ready:</strong> You should now see the folder path in your command prompt!
+                </div>
+            </div>
+
+            <!-- Step 4: Install Libraries -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">4</span>
+                    Install Required Libraries
+                </h2>
+
+                <p>Now we'll install all the necessary libraries that the application needs to run.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📦 Install Dependencies</h3>
+                <p>In the Command Prompt/Terminal (where you are in the spam_detection_system folder), type:</p>
+                <div class="code-block"><code>pip install -r requirements.txt</code></div>
+
+                <p style="margin-top: 20px;">If that doesn't work, try:</p>
+                <div class="code-block"><code>pip3 install -r requirements.txt</code></div>
+
+                <p style="margin-top: 20px;">Press <strong>Enter</strong> and wait. This process might take a few minutes.</p>
+
+                <div class="important-box">
+                    <strong>⏳ Be Patient:</strong> You will see messages indicating that packages are being downloaded and installed. This is normal. Do not close the terminal window!
+                </div>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">✅ Verify Installation</h3>
+                <p>When the installation is complete, you should see a message indicating success. The command prompt should be ready for the next command.</p>
+
+                <div class="success-box">
+                    <strong>✓ Complete:</strong> All required libraries are now installed!
+                </div>
+            </div>
+
+            <!-- Step 5: Run the Application -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">5</span>
+                    Run the Application
+                </h2>
+
+                <p>Now it's time to start the Spam Detection System application!</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">🚀 Start the Application</h3>
+                <p>In the same Command Prompt/Terminal window, type:</p>
+                <div class="code-block"><code>streamlit run app.py</code></div>
+
+                <p style="margin-top: 20px;">Press <strong>Enter</strong>.</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">🌐 Open in Browser</h3>
+                <p>The application will start, and a new tab in your web browser should automatically open. If it doesn't, look for a message in the terminal that says:</p>
+                <div class="code-block"><code>Local URL: http://localhost:8501</code></div>
+
+                <p style="margin-top: 20px;">Copy this URL and paste it into your web browser's address bar.</p>
+
+                <div class="success-box">
+                    <strong>✓ Success:</strong> The Spam Detection System is now running in your browser!
+                </div>
+
+                <div class="important-box">
+                    <strong>💡 Note:</strong> Keep the Command Prompt/Terminal window open while using the application. To stop the application, press <strong>Ctrl + C</strong> in the terminal.
+                </div>
+            </div>
+
+            <!-- Step 6: Use the Application -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">6</span>
+                    Use the Application
+                </h2>
+
+                <p>Great! The application is now running. Here's how to use it:</p>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📝 Single Message Analysis</h3>
+                <ul>
+                    <li>In the <strong>"Message Analysis"</strong> section, click the text area.</li>
+                    <li>Type or paste any message you want to check.</li>
+                    <li>Click the <strong>"🔍 Predict"</strong> button.</li>
+                    <li>The application will display whether the message is <strong>"Spam"</strong> or <strong>"Not Spam (Ham)"</strong> along with a confidence score.</li>
+                </ul>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📊 Prediction History</h3>
+                <p>Every time you make a prediction, it will be added to the <strong>"Prediction History"</strong> table below. You can:</p>
+                <ul>
+                    <li>View all your predictions from the current session.</li>
+                    <li>See the message, prediction result, and confidence score.</li>
+                    <li>Click <strong>"Clear History"</strong> to remove all predictions.</li>
+                </ul>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📁 Batch Prediction (Advanced)</h3>
+                <p>In the <strong>"Batch Prediction"</strong> section on the right, you can:</p>
+                <ul>
+                    <li>Upload a CSV file containing a column named <code>message</code>.</li>
+                    <li>The application will predict all messages in the file.</li>
+                    <li>Download the results as a CSV file.</li>
+                </ul>
+
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px;">📈 View Model Performance</h3>
+                <p>Click on <strong>"📊 View Model Performance Metrics"</strong> to see:</p>
+                <ul>
+                    <li>The confusion matrix (showing how accurate the model is).</li>
+                    <li>Model accuracy and other performance metrics.</li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>✓ Ready to Use:</strong> You can now start classifying messages as spam or not spam!
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">?</span>
+                    Troubleshooting
+                </h2>
+
+                <p>If you encounter any issues, here are some common problems and solutions:</p>
+
+                <div class="troubleshooting-item">
+                    <strong>❌ Error: "'python' is not recognized" or "'pip' is not recognized"</strong>
+                    <p>This means Python was not added to your system's PATH during installation. Solution: Re-run the Python installer and ensure the "Add Python to PATH" option is checked during setup.</p>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>❌ Error: "No module named 'streamlit'"</strong>
+                    <p>This means the libraries were not installed correctly. Solution: Make sure you are in the <code>spam_detection_system</code> directory in your terminal and try running <code>pip install -r requirements.txt</code> again.</p>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>❌ Error: "No module named 'sklearn'" or other missing modules</strong>
+                    <p>Some libraries may not have installed properly. Solution: Try running <code>pip install --upgrade pip</code> first, then run <code>pip install -r requirements.txt</code> again.</p>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>❌ Browser doesn't open automatically</strong>
+                    <p>Solution: Look for a message in the terminal that says "Local URL: http://localhost:8501". Copy this URL and paste it into your web browser's address bar manually.</p>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>❌ Port 8501 is already in use</strong>
+                    <p>Solution: Another application is using this port. Try running: <code>streamlit run app.py --server.port 8502</code> to use a different port.</p>
+                </div>
+
+                <div class="troubleshooting-item">
+                    <strong>❌ Application runs but shows errors</strong>
+                    <p>Solution: Check the terminal window for error messages. Take a screenshot of the error and share it for assistance.</p>
+                </div>
+
+                <div class="error-box">
+                    <strong>Still having issues?</strong> If you encounter any persistent problems not listed above, please describe the exact error message you see, and we will do our best to assist you further.
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button id="prevBtn" onclick="changeStep(-1)">← Previous</button>
+                <span class="step-counter"><span id="currentStep">1</span> / 7</span>
+                <button id="nextBtn" onclick="changeStep(1)">Next →</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Spam Detection System Setup Guide | Created with ❤️ for Easy Setup</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Need help? Make sure to read the troubleshooting section above.</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 7;
+
+        function showStep(n) {
+            const steps = document.querySelectorAll('.step');
+            
+            if (n >= totalSteps) {
+                currentStep = totalSteps - 1;
+            }
+            if (n < 0) {
+                currentStep = 0;
+            }
+
+            steps.forEach(step => step.classList.remove('active'));
+            steps[currentStep].classList.add('active');
+
+            document.getElementById('currentStep').textContent = currentStep + 1;
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep === totalSteps - 1;
+
+            const progress = ((currentStep + 1) / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            window.scrollTo(0, 0);
+        }
+
+        function changeStep(n) {
+            currentStep += n;
+            showStep(currentStep);
+        }
+
+        function jumpToStep(stepNum) {
+            if (stepNum !== '') {
+                currentStep = parseInt(stepNum);
+                showStep(currentStep);
+            }
+        }
+
+        showStep(currentStep);
+    </script>
+</body>
+</html>

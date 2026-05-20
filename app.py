@@ -39,7 +39,7 @@ if 'history' not in st.session_state:
     st.session_state.history = []
 
 # Header
-st.title("📧 Spam Detection System")
+st.title("📧 Group 5 message Spam Detection System")
 st.markdown("""
 This application uses a **Machine Learning (Naive Bayes)** model to classify text messages as either **Spam** or **Ham (Not Spam)**.
 The model was trained on the standard SMS Spam Collection dataset using TF-IDF vectorization.
